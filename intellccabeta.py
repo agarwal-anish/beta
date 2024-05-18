@@ -25,7 +25,7 @@ def generate_llama3_response(prompt_input, string_dialogue, temperature, top_p, 
 
     # Make a request to your Llama 3 API endpoint
     api_endpoint = "https://your-llama3-api.com/generate"
-    headers = {"Authorization": f"Bearer {your_api_token}", "Content-Type": "application/json"}
+    headers = {"Authorization": f"Bearer {r8_DGy0l9PV88MnLqZxdpCgsboWhPDcQKI3IgPyW}", "Content-Type": "application/json"}
     payload = {
         "model": llm,
         "prompt": dialogue_history + prompt_input + " Assistant:",
