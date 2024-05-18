@@ -8,6 +8,11 @@ top_p = st.secrets['TOP_P']
 max_length = st.secrets['MAX_LENGTH']
 llm =  st.secrets['LLM']
 
+print(temperature)
+print(top_p)
+print(max_length)
+print(llm)
+
 # App title
 st.set_page_config(page_title="Echomate")
        
