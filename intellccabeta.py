@@ -4,8 +4,17 @@ import requests
 # App title
 st.set_page_config(page_title="🦙💬 Llama 3 Chatbot")
 
+# Define llm based on the selected model
+selected_model = 'Llama3-7B'  # You can change this to the desired default model
+model_mapping = {
+    'Llama3-7B': 'llama3-7b',
+    'Llama3-13B': 'llama3-13b',
+    'Llama3-70B': 'llama3-70b'
+}
+llm = model_mapping[selected_model]
+
 # Function for generating LLaMA3 response
-def generate_llama3_response(prompt_input, string_dialogue, llm, temperature, top_p, max_length):
+def generate_llama3_response(prompt_input, string_dialogue, temperature, top_p, max_length):
     # Prepare the dialogue history
     dialogue_history = ""
     for dict_message in string_dialogue:
@@ -16,8 +25,9 @@ def generate_llama3_response(prompt_input, string_dialogue, llm, temperature, to
 
     # Make a request to your Llama 3 API endpoint
     api_endpoint = "https://your-llama3-api.com/generate"
-    headers = {"Authorization": f"Bearer {r8_DGy0l9PV88MnLqZxdpCgsboWhPDcQKI3IgPyW}", "Content-Type": "application/json"}
+    headers = {"Authorization": f"Bearer {your_api_token}", "Content-Type": "application/json"}
     payload = {
+        "model": llm,
         "prompt": dialogue_history + prompt_input + " Assistant:",
         "temperature": temperature,
         "top_p": top_p,
@@ -50,22 +60,10 @@ if prompt := st.text_input('Enter your message here:', key='user_input'):
     with st.chat_message("user"):
         st.write(prompt)
 
-# Function to generate a response
-def generate_response(prompt):
-    if st.session_state.messages[-1]["role"] == "assistant":
-        dialogue_history = st.session_state.messages[:-1]
-    else:
-        dialogue_history = st.session_state.messages
-
-    # Generate response using Llama 3
-    response = generate_llama3_response(prompt, dialogue_history, llm, temperature, top_p, max_length)
-
-    return response
-
 # Generate a new response if the last message is not from the assistant
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.spinner("Thinking..."):
-        response = generate_response(prompt)
+        response = generate_llama3_response(prompt, st.session_state.messages, temperature, top_p, max_length)
     st.session_state.messages.append({"role": "assistant", "content": response})
     with st.chat_message("assistant"):
         st.write(response)
