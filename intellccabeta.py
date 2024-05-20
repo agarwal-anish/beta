@@ -8,6 +8,7 @@ top_p = st.secrets['TOP_P']
 max_length = st.secrets['MAX_LENGTH']
 llm =  st.secrets['LLM']
 
+print(os.environ['REPLICATE_API_TOKEN'])
 print(temperature)
 print(top_p)
 print(max_length)
